@@ -8,21 +8,51 @@ import Impact from './sections/Impact'
 import FutureScope from './sections/FutureScope'
 import Footer from './sections/Footer'
 
+import DogDetails from './components/DogDetails'
+import HowQR from './components/howQR'
+
+import QRCodeGenerator from "./components/QRCodeGenerator"
+import HowItWorks from './components/HowItWorks'
+
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+
+function HomePage() {
+  return (
+    <>
+      <Hero />
+      <Problem />
+      <Solution />
+      <HowItWorks />
+      <Features />
+      <Innovation />
+      <HowQR />
+     
+    </>
+  )
+}
+
 function App() {
   return (
-    <div className="min-h-screen bg-pastel-cream overflow-x-hidden">
-      <Navbar />
-      <main>
-        <Hero />
-        <Problem />
-        <Solution />
-        <Features />
-        <Innovation />
-        <Impact />
-        <FutureScope />
-      </main>
-      <Footer />
-    </div>
+    <BrowserRouter>
+
+      <div className="min-h-screen bg-pastel-cream overflow-x-hidden">
+        <Navbar />
+
+        <Routes>
+          {/* ✅ HOME PAGE */}
+          <Route path="/" element={<HomePage />} />
+
+          {/* ✅ FORM PAGE */}
+          <Route path="/generate" element={<QRCodeGenerator />} />
+
+          {/* ✅ DOG DETAILS */}
+          <Route path="/dog" element={<DogDetails />} />
+        </Routes>
+
+        <Footer />
+      </div>
+
+    </BrowserRouter>
   )
 }
 

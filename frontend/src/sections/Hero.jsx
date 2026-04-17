@@ -24,10 +24,7 @@ export default function Hero() {
               transition={{ delay: 0.2, duration: 0.5 }}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm shadow-soft"
             >
-              <Sparkles className="w-4 h-4 text-pastel-lavender-dark" />
-              <span className="text-sm font-medium text-pastel-text">
-                Powered by Advanced AI
-              </span>
+           
             </motion.div>
 
             <div className="space-y-4">
@@ -37,7 +34,7 @@ export default function Hero() {
                 transition={{ delay: 0.3, duration: 0.6 }}
                 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-pastel-text leading-tight"
               >
-                AI Rebels
+               PET-CARE
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -53,7 +50,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.6 }}
-              className="text-lg text-pastel-text/80 max-w-md italic"
+              className="text-lg font-bold text-pastel-text/80 max-w-md italic"
             >
               "Giving a voice to the voiceless"
             </motion.p>

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { QrCode, Stethoscope, Syringe, Phone, Heart } from 'lucide-react'
+import { QrCode, Dog, Users , Phone, Heart } from 'lucide-react'
 
 export default function QRPreview() {
   return (
@@ -35,32 +35,33 @@ export default function QRPreview() {
 
           <div className="space-y-3">
             <div className="flex items-center gap-3 p-3 rounded-xl bg-pastel-blue/50">
-              <Stethoscope className="w-5 h-5 text-pastel-blue-dark" />
+              <Dog className="w-5 h-5 text-pastel-blue-dark" />
               <div className="flex-1">
-                <p className="text-xs text-pastel-text-light">Last Checkup</p>
-                <p className="text-sm font-medium text-pastel-text">Jan 15, 2024</p>
+                <p className="text-xs text-pastel-text-light">Breed</p>
+                 
+                <p className="text-sm font-medium text-pastel-text">Golden Retriever</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3 p-3 rounded-xl bg-pastel-green/50">
-              <Syringe className="w-5 h-5 text-green-600" />
+              <Users className="w-5 h-5 text-green-600" />
               <div className="flex-1">
-                <p className="text-xs text-pastel-text-light">Vaccination</p>
-                <p className="text-sm font-medium text-pastel-text">Up to date</p>
+                <p className="text-xs text-pastel-text-light">Pet Owner Name</p>
+                <p className="text-sm font-medium text-pastel-text">John Doe</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3 p-3 rounded-xl bg-pastel-lavender/50">
               <Phone className="w-5 h-5 text-pastel-lavender-dark" />
               <div className="flex-1">
-                <p className="text-xs text-pastel-text-light">Emergency Contact</p>
-                <p className="text-sm font-medium text-pastel-text">Dr. Smith: +1 234 567</p>
+                <p className="text-xs text-pastel-text-light">Owner Contact</p>
+                <p className="text-sm font-medium text-pastel-text"> +1 234 567</p>
               </div>
             </div>
           </div>
 
           <p className="text-center text-xs text-pastel-text-light mt-4">
-            Scan for complete health history
+            Scan to reunite the pet to their owner   🐾
           </p>
         </div>
       </div>
