@@ -15,7 +15,7 @@ export default function HowQR() {
        
         <div className="p-6 bg-white shadow rounded-xl">
           <h3 className="font-bold">1. Scan QR</h3>
-          <p>Scan the QR code on dog collaraar</p>
+          <p>Scan the QR code on dog collar</p>
         </div>
 
         <div className="p-6 bg-white shadow rounded-xl">
@@ -36,7 +36,7 @@ export default function HowQR() {
         onClick={() => navigate("/generate")}
         className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-xl shadow"
       >
-        Customize QR CODE 🐶
+        Customize YOUR QR CODE 🐶
       </button>
     </section>
   )
