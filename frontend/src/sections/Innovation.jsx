@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion'
-import { Sparkles, QrCode, History, Syringe, Phone, Shield } from 'lucide-react'
+import {Heart,  Sparkles, QrCode, History, Syringe, Phone, Shield } from 'lucide-react'
 import QRPreview from '../components/QRPreview'
 
 const features = [
-  { icon: History, title: 'Health History', description: 'Complete medical records' },
-  { icon: Syringe, title: 'Vaccination Data', description: 'Vaccination schedules & logs' },
-  { icon: Phone, title: 'Emergency Contact', description: 'Quick access to vet info' },
+  { icon: History, title: 'Lost Dog Alert 🚨', description: 'This dog might be lost or needs help finding home' },
+  { icon: Syringe, title: 'Instant Owner Details', description: 'Get owner name & phone in one scan' },
+  { icon: Phone, title: 'Quick Rescue Action', description: 'Call the owner and help reunite instantly' },
 ]
 
 export default function Innovation() {
@@ -24,11 +24,12 @@ export default function Innovation() {
             Unique Innovation
           </div>
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-pastel-text mb-4">
-            QR Code Health Passport
+          “Scan. Connect. Reunite.”
           </h2>
           <p className="text-pastel-text-light leading-relaxed">
-            Every dog gets a unique digital health identity. A simple scan reveals 
-            complete medical history—perfect for emergencies, travel, or vet visits.
+            Every dog deserves to find their way home. 
+Scan this QR code to instantly view the dog's details and contact the owner.
+Your one small action can reunite a family ❤️
           </p>
         </motion.div>
 
@@ -63,11 +64,11 @@ export default function Innovation() {
               className="flex items-center gap-3 p-4 rounded-2xl bg-gradient-to-r from-pastel-blue/20 to-pastel-lavender/20"
             >
               <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center">
-                <Shield className="w-5 h-5 text-pastel-blue-dark" />
+                <Heart className="w-5 h-5 text-pastel-pink-dark" />
               </div>
               <div>
-                <p className="font-medium text-pastel-text">Privacy Protected</p>
-                <p className="text-sm text-pastel-text-light">End-to-end encrypted health data</p>
+                <p className="font-medium text-pastel-text">Be a Hero</p>
+                <p className="text-sm text-pastel-text-light">Your small help can save a life</p>
               </div>
             </motion.div>
           </div>

@@ -5,6 +5,7 @@ import { Dog, Menu, X } from 'lucide-react'
 const navLinks = [
   { name: 'Problem', href: '#problem' },
   { name: 'Solution', href: '#solution' },
+  { name: 'How It Works', href: '#how' },
   { name: 'Features', href: '#features' },
   { name: 'Innovation', href: '#innovation' },
   { name: 'Impact', href: '#impact' },
@@ -27,7 +28,7 @@ export default function Navbar() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed border-2 border-grey top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? 'bg-white/80 backdrop-blur-lg shadow-soft py-3'
           : 'bg-transparent py-5'
@@ -44,7 +45,7 @@ export default function Navbar() {
               <Dog className="w-5 h-5 text-white" />
             </div>
             <span className="font-display font-semibold text-lg text-pastel-text">
-              AI Rebels
+            PET-CARE
             </span>
           </motion.a>
 
