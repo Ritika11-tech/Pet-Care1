@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Navigation, Stethoscope } from 'lucide-react'
+import "/src/assets/map.png"
 
 export default function NearbyVets() {
     const openNearbyVets = () => {
@@ -40,7 +41,7 @@ export default function NearbyVets() {
         >
                     {/* Real Map Background Image */}
                     <img
-                        src="https://mt1.google.com/vt/lyrs=m&x=0&y=0&z=15&w=800&h=400"
+                        src="/src/assets/map.png"
                         alt="Map showing nearby veterinarians"
                         className="absolute inset-0 w-full h-full object-cover"
                         

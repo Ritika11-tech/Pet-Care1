@@ -48,7 +48,7 @@ function App() {
         <Route path="/pet/:dogId" element={<DogProfile />} /> 
         <Route path="/generate" element={<QRCodeGenerator />} />
         <Route path="/qr" element={<QRPage />} />
-        <Route path="/dog-details" element={<DogDetails />} />
+        
       </Routes>
     </Router>
   )
