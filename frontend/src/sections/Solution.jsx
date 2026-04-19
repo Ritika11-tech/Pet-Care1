@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import { Upload, Scan, FileText, CheckCircle } from 'lucide-react'
-import UploadBox from '../components/UploadBox'
 
 const steps = [
   {
@@ -26,6 +26,8 @@ const steps = [
 ]
 
 export default function Solution() {
+  const navigate = useNavigate()
+
   return (
     <section id="solution" className="py-24 bg-pastel-cream">
       <div className="max-w-7xl mx-auto section-padding">
@@ -78,9 +80,14 @@ export default function Solution() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            id="try"
+            className="flex items-center justify-center"
           >
-            <UploadBox />
+            <button
+              onClick={() => navigate('/detection')}
+              className="px-12 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 text-lg"
+            >
+              Try Detection
+            </button>
           </motion.div>
         </div>
       </div>

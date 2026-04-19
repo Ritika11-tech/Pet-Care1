@@ -13,16 +13,16 @@ export default function DogProfile() {
     name: dogId ? decodeURIComponent(dogId) : 'Unknown Dog',
     breed: queryParams.get('breed') || 'Unknown Breed',
     age: queryParams.get('age') || '',
-    photo: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&h=400&fit=crop',
+    photo: queryParams.get('photo') || 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&h=400&fit=crop',
     owner: {
       name: queryParams.get('owner') || 'Unknown Owner',
       address: queryParams.get('address') || 'No address provided',
       phone: queryParams.get('phone') || ''
     },
     medicalInfo: {
-      vaccinated: true,
-      lastCheckup: 'Jan 15, 2024',
-      allergies: 'None known'
+      vaccinated: queryParams.get('vaccinated') || 'yes',
+      lastCheckup: queryParams.get('lastCheckup') || 'Jan 15, 2024',
+      allergies: queryParams.get('allergies') || 'None known'
     }
   }
  
@@ -166,12 +166,13 @@ export default function DogProfile() {
                         {dogData.owner.phone}
                       </span>
                     </motion.button>
-
+ 
                     <p className="text-center text-sm text-gray-400 mt-4">
                       Tap the button to open your phone dialer
                     </p>
                   </>
                 )}
+                
               </motion.div>
             </div>
           </div>

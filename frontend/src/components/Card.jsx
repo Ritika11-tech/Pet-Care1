@@ -13,10 +13,11 @@ export default function Card({ children, className = '', hover = true, delay = 0
               scale: 1.02,
               y: -4,
               boxShadow: '0 12px 40px -8px rgba(0, 0, 0, 0.12)',
+              transition: { duration: 0.2, ease: 'easeOut' },
             }
           : undefined
       }
-      className={`bg-white rounded-2xl p-6 shadow-soft transition-shadow duration-300 ${className}`}
+      className={`bg-white rounded-2xl p-6 shadow-lg transition-shadow duration-300 ${className}`}
     >
       {children}
     </motion.div>

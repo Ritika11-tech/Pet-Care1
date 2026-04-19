@@ -13,8 +13,9 @@ import HowQR from "./components/howQR"
 import DogDetails from "./components/DogDetails"
 import QRCodeGenerator from "./components/QRCodeGenerator"
 import QRPage from "./components/QRPage"
- import DogProfile from './pages/DogProfile'
-  import NearbyVets from './sections/NearbyVets'
+import DogProfile from './pages/DogProfile'
+import DogCareAI from './pages/DogCareAI'
+import NearbyVets from './sections/NearbyVets'
 
 
 
@@ -46,9 +47,10 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/pet/:dogId" element={<DogProfile />} /> 
+        <Route path="/detection" element={<DogCareAI />} />
         <Route path="/generate" element={<QRCodeGenerator />} />
         <Route path="/qr" element={<QRPage />} />
-        <Route path="/dog-details" element={<DogDetails />} />
+        
       </Routes>
     </Router>
   )

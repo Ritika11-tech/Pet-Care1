@@ -1,0 +1,8 @@
+*.pth
+*.pt
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+node_modules/
+.DS_Store

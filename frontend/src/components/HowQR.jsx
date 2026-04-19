@@ -7,7 +7,7 @@ import dog3 from '../assets/dog7.png'
 export default function HowQR() {
   const navigate = useNavigate()
   return (
-    <section id="qr-steps" className="py-16 px-4">
+       <section id="howQR" className="py-16 px-4">
       
       {/* Problem Statement Section */}
       <div className="max-w-4xl mx-auto mb-16">
