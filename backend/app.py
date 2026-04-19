@@ -14,7 +14,7 @@ app = Flask(__name__)
 CORS(app)
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-MODEL_PATH = "model_88.pth"
+MODEL_PATH = "model_89.pth"
 CLASSES_PATH = "classes.json"
 OLLAMA_URL = "http://localhost:11434/api/generate"
 OLLAMA_MODEL = "llama3.2"
@@ -25,17 +25,17 @@ with open(CLASSES_PATH, "r", encoding="utf-8") as f:
 NUM_CLASSES = len(CLASS_NAMES)
 
 DISEASE_INFO = {
-    "Bacterial_dermatosis": {"symptoms": ["Redness", "Pus", "Itching"], "precautions": ["Keep area clean", "Avoid scratching", "Visit vet"], "remedies": ["Antibiotic treatment", "Vet consultation"], "recovery_time": "1-3 weeks", "severity": "High"},
-    "Dermatitis": {"symptoms": ["Inflammation", "Itching", "Red skin"], "precautions": ["Avoid allergens", "Use gentle shampoo", "Keep dog dry"], "remedies": ["Anti-inflammatory treatment", "Vet care"], "recovery_time": "2-4 weeks", "severity": "Medium"},
-    "Fungal_infections": {"symptoms": ["Hair loss", "Scaly patches", "Itching"], "precautions": ["Isolate dog", "Avoid contact", "Disinfect bedding"], "remedies": ["Antifungal medicine", "Topical cream"], "recovery_time": "2-6 weeks", "severity": "High"},
-    "Healthy": {"symptoms": ["No major symptoms"], "precautions": ["Maintain hygiene", "Regular grooming"], "remedies": ["No treatment needed"], "recovery_time": "N/A", "severity": "Low"},
-    "Hypersensitivity": {"symptoms": ["Itching", "Skin irritation", "Redness"], "precautions": ["Avoid allergens", "Monitor diet"], "remedies": ["Antihistamines", "Vet consultation"], "recovery_time": "2-4 weeks", "severity": "Medium"},
-    "Hypersensitivity_allergic_dermatosis": {"symptoms": ["Severe itching", "Red patches", "Hair loss"], "precautions": ["Identify triggers", "Avoid exposure"], "remedies": ["Allergy treatment", "Vet visit"], "recovery_time": "2-5 weeks", "severity": "High"},
-    "demodicosis": {"symptoms": ["Hair loss", "Patchy skin", "Scabs"], "precautions": ["Keep immune system strong", "Vet supervision"], "remedies": ["Miticidal medication", "Vet treatment"], "recovery_time": "3-6 weeks", "severity": "High"},
-    "flea_allergy": {"symptoms": ["Itching", "Bites", "Skin redness"], "precautions": ["Use flea control", "Clean bedding"], "remedies": ["Anti-flea treatment", "Vet care"], "recovery_time": "1-3 weeks", "severity": "Medium"},
-    "hotspot": {"symptoms": ["Wet rash", "Red irritated patch", "Licking"], "precautions": ["Stop licking", "Keep area dry", "Avoid infection"], "remedies": ["Topical antiseptic", "Vet consultation"], "recovery_time": "1-2 weeks", "severity": "High"},
-    "mange": {"symptoms": ["Severe itching", "Hair loss", "Skin thickening"], "precautions": ["Isolate dog", "Disinfect surroundings"], "remedies": ["Anti-mite treatment", "Vet supervision"], "recovery_time": "3-6 weeks", "severity": "High"},
-    "ringworm": {"symptoms": ["Hair loss", "Circular lesions", "Scaling"], "precautions": ["Isolate dog", "Avoid contact", "Wash hands"], "remedies": ["Antifungal cream", "Vet consultation"], "recovery_time": "2-4 weeks", "severity": "High"}
+    "Bacterial_dermatosis": {"symptoms": ["Redness and inflammation", "Pus discharge or pustules", "Itching and discomfort", "Skin lesions or sores"], "precautions": ["Keep affected area clean and dry", "Avoid scratching or licking", "Visit vet immediately", "Isolate if contagious"], "remedies": ["Antibiotic ointment application", "Oral antibiotics as prescribed", "Regular wound cleaning", "Vet consultation for treatment"], "recovery_time": "1-3 weeks", "severity": "High"},
+    "Dermatitis": {"symptoms": ["Inflammation and redness", "Itching and scratching", "Dry or flaky skin", "Possible hair loss"], "precautions": ["Avoid potential allergens", "Use gentle or medicated shampoo", "Keep dog dry after bathing", "Monitor diet for allergies"], "remedies": ["Anti-inflammatory medication", "Topical ointments or creams", "Dietary adjustments", "Vet care and follow-up"], "recovery_time": "2-4 weeks", "severity": "Medium"},
+    "Fungal_infections": {"symptoms": ["Hair loss in patches", "Scaly or crusty patches", "Itching and discomfort", "Circular ring-like lesions"], "precautions": ["Isolate dog from others", "Avoid direct contact", "Disinfect bedding regularly", "Practice good hygiene"], "remedies": ["Antifungal medicine orally", "Topical antifungal cream", "Medicated baths", "Vet supervision required"], "recovery_time": "2-6 weeks", "severity": "High"},
+    "Healthy": {"symptoms": ["No major visible symptoms", "Normal energy levels", "Healthy coat appearance"], "precautions": ["Maintain regular hygiene", "Regular grooming and bathing", "Healthy diet and exercise"], "remedies": ["No treatment needed", "Continue preventive care", "Regular vet checkups"], "recovery_time": "N/A", "severity": "Low"},
+    "Hypersensitivity": {"symptoms": ["Itching and scratching", "Skin irritation or rash", "Redness in affected areas", "Possible ear inflammation"], "precautions": ["Identify and avoid allergens", "Monitor diet carefully", "Use hypoallergenic dog food", "Minimize stress factors"], "remedies": ["Antihistamine medication", "Vet consultation essential", "Dietary changes", "Topical relief creams"], "recovery_time": "2-4 weeks", "severity": "Medium"},
+    "Hypersensitivity_allergic_dermatosis": {"symptoms": ["Severe itching and scratching", "Red patches on skin", "Hair loss from scratching", "Swelling or hives"], "precautions": ["Identify allergy triggers", "Avoid exposure to allergens", "Use hypoallergenic products", "Keep environment clean"], "remedies": ["Allergy medication prescribed", "Vet consultation for testing", "Immunotherapy if needed", "Topical anti-itch treatments"], "recovery_time": "2-5 weeks", "severity": "High"},
+    "demodicosis": {"symptoms": ["Hair loss in patches", "Patchy or scaly skin", "Red or inflamed areas", "Scabs and crusting"], "precautions": ["Keep immune system strong", "Regular vet supervision", "Reduce stress factors", "Nutritious diet important"], "remedies": ["Miticidal medication dips", "Oral anti-mite medication", "Vet treatment protocol", "Regular monitoring required"], "recovery_time": "3-6 weeks", "severity": "High"},
+    "flea_allergy": {"symptoms": ["Intense itching sensation", "Flea bites visible", "Skin redness and irritation", "Hair loss from scratching"], "precautions": ["Monthly flea prevention", "Clean dog bedding regularly", "Maintain clean environment", "Flea control for other pets"], "remedies": ["Anti-flea medication", "Antihistamine for relief", "Anti-inflammatory treatment", "Vet prescribed solutions"], "recovery_time": "1-3 weeks", "severity": "Medium"},
+    "hotspot": {"symptoms": ["Wet rash or open sore", "Red irritated patch", "Active licking behavior", "Hair loss in area"], "precautions": ["Stop licking immediately", "Keep area clean and dry", "Avoid infection spread", "Use e-collar if needed"], "remedies": ["Topical antiseptic spray", "Antibiotic ointment", "Vet consultation urgent", "Oral antibiotics if severe"], "recovery_time": "1-2 weeks", "severity": "High"},
+    "mange": {"symptoms": ["Severe itching behavior", "Hair loss in patches", "Skin thickening visible", "Possible skin odor"], "precautions": ["Isolate dog immediately", "Disinfect surroundings", "Regular monitoring needed", "Avoid other dog contact"], "remedies": ["Anti-mite treatment dips", "Oral medication prescribed", "Vet supervision essential", "Multiple treatment cycles"], "recovery_time": "3-6 weeks", "severity": "High"},
+    "ringworm": {"symptoms": ["Hair loss in patches", "Circular lesions visible", "Scaly or crusty skin", "Red ring-like patterns"], "precautions": ["Isolate dog from others", "Avoid contact with humans", "Wash hands after touching", "Clean bedding daily"], "remedies": ["Antifungal cream applied", "Oral antifungal medication", "Medicated shampoo baths", "Vet consultation important"], "recovery_time": "2-4 weeks", "severity": "High"}
 }
 
 # Dog-related keywords in ImageNet labels
@@ -262,6 +262,31 @@ def ollama_generate(prompt):
         "recovery": "Unknown"
     })
 
+def is_dog_health_question(message):
+    """Check if message is related to dog health/diseases"""
+    dog_health_keywords = [
+        # Dog-related
+        'dog', 'puppy', 'puppies', 'pet', 'pets', 'canine', 'pup', 'pups', 'breed', 'breeds',
+        # Health/Medical
+        'disease', 'illness', 'sick', 'infection', 'symptom', 'symptoms', 'health',
+        'vet', 'veterinary', 'veterinarian', 'treatment', 'medicine', 'medication',
+        'cure', 'remedy', 'remedies', 'diagnosis', 'diagnose', 'care',
+        # Body parts/conditions
+        'skin', 'fur', 'coat', 'paw', 'paws', 'ear', 'ears', 'nose', 'wound', 'wounds',
+        'rash', 'itching', 'itchy', 'allergy', 'allergies', 'allergic',
+        'inflammation', 'infected', 'injury', 'injuries', 'pain', 'hurt', 'sore',
+        'lesion', 'lesions', 'scab', 'scabs', 'patch', 'patches',
+        # Diseases
+        'dermatitis', 'fungal', 'ringworm', 'mange', 'demodicosis', 'hotspot',
+        'bacterial', 'flea', 'hypersensitivity', 'dermatosis',
+        # Care/Precautions
+        'hygiene', 'grooming', 'groom', 'bedding', 'diet', 'food', 'exercise',
+        'recovery', 'healing', 'heal', 'prevention', 'precaution'
+    ]
+    
+    message_lower = message.lower()
+    return any(keyword in message_lower for keyword in dog_health_keywords)
+
 def call_ollama(prompt):
     """Call Ollama for AI response"""
     try:
@@ -336,6 +361,10 @@ def chat():
         msg = data.get("message", "")
         disease = data.get("disease", "Unknown")
         context = data.get("context", "")
+
+        # Check if question is dog-health related
+        if not is_dog_health_question(msg):
+            return jsonify({"reply": "🐶 I'm designed specifically for dog health. Please ask me about your dog's symptoms, diseases, or health concerns! I'm here to help with dog disease detection and veterinary guidance."})
 
         # Check if message contains symptoms
         symptom_keywords = ["symptoms", "symptom", "hair loss", "red patch", "itching", "swelling", "rash", "pus", 

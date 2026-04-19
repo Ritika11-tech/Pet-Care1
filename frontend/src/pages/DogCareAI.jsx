@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Navbar from '../components/Navbar';
+import html2pdf from 'html2pdf.js';
 
 const DogCareAI = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -174,6 +175,90 @@ const DogCareAI = () => {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
     }
   }, [chatMessages]);
+
+  const handleDownloadReport = () => {
+    if (diseaseData.diseaseName === "---") {
+      showErrorMsg("Please scan an image first to download the report.");
+      return;
+    }
+
+    // Create HTML content for PDF
+    const reportHTML = document.createElement('div');
+    reportHTML.innerHTML = `
+      <div style="font-family: 'Inter', Arial, sans-serif; padding: 20px; background: white;">
+        <div style="text-align: center; border-bottom: 3px solid #2563eb; padding-bottom: 20px; margin-bottom: 30px;">
+          <h1 style="margin: 0; color: #1e293b; font-size: 28px;">🐶 Dog Care AI - Infection Report</h1>
+          <p style="margin: 5px 0 0 0; color: #64748b; font-size: 14px;">Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
+        </div>
+
+        ${previewSrc ? `<div style="text-align: center; margin: 30px 0;"><img src="${previewSrc}" alt="Dog Image" style="max-width: 300px; max-height: 300px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);" /></div>` : ''}
+
+        <div style="margin: 30px 0;">
+          <h2 style="color: #2563eb; font-size: 18px; border-bottom: 2px solid #2563eb; padding-bottom: 10px; margin: 20px 0 15px 0;">Detection Results</h2>
+          <div style="display: flex; margin: 12px 0; padding: 10px; background: #f8fafc; border-radius: 6px;">
+            <div style="font-weight: 600; color: #334155; min-width: 150px;">Disease Identified:</div>
+            <div style="color: #475569; flex: 1;">${diseaseData.diseaseName}</div>
+          </div>
+          <div style="display: flex; margin: 12px 0; padding: 10px; background: #f8fafc; border-radius: 6px;">
+            <div style="font-weight: 600; color: #334155; min-width: 150px;">Confidence:</div>
+            <div style="color: #475569; flex: 1;">${diseaseData.confidence}</div>
+          </div>
+          <div style="display: flex; margin: 12px 0; padding: 10px; background: #f8fafc; border-radius: 6px;">
+            <div style="font-weight: 600; color: #334155; min-width: 150px;">Severity:</div>
+            <div style="color: #475569; flex: 1;">${currentSeverity}</div>
+          </div>
+        </div>
+
+        <div style="margin: 30px 0;">
+          <h2 style="color: #2563eb; font-size: 18px; border-bottom: 2px solid #2563eb; padding-bottom: 10px; margin: 20px 0 15px 0;">Symptoms Observed</h2>
+          <div style="margin: 12px 0; padding: 10px; background: #f8fafc; border-radius: 6px;">
+            <div style="color: #475569; white-space: pre-wrap;">${diseaseData.symptoms.split('\n').map(s => '• ' + s).join('\n')}</div>
+          </div>
+        </div>
+
+        <div style="margin: 30px 0;">
+          <h2 style="color: #2563eb; font-size: 18px; border-bottom: 2px solid #2563eb; padding-bottom: 10px; margin: 20px 0 15px 0;">Precautions</h2>
+          <div style="margin: 12px 0; padding: 10px; background: #f8fafc; border-radius: 6px;">
+            <div style="color: #475569; white-space: pre-wrap;">${diseaseData.precautions.split('\n').map(p => '• ' + p).join('\n')}</div>
+          </div>
+        </div>
+
+        <div style="margin: 30px 0;">
+          <h2 style="color: #2563eb; font-size: 18px; border-bottom: 2px solid #2563eb; padding-bottom: 10px; margin: 20px 0 15px 0;">Recommended Remedies</h2>
+          <div style="margin: 12px 0; padding: 10px; background: #f8fafc; border-radius: 6px;">
+            <div style="color: #475569; white-space: pre-wrap;">${diseaseData.remedies.split('\n').map(r => '• ' + r).join('\n')}</div>
+          </div>
+        </div>
+
+        <div style="margin: 30px 0;">
+          <h2 style="color: #2563eb; font-size: 18px; border-bottom: 2px solid #2563eb; padding-bottom: 10px; margin: 20px 0 15px 0;">Expected Recovery Time</h2>
+          <div style="margin: 12px 0; padding: 10px; background: #f8fafc; border-radius: 6px;">
+            <div style="color: #475569;">${diseaseData.recovery}</div>
+          </div>
+        </div>
+
+        <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0; border-radius: 6px; color: #78350f;">
+          <strong>⚠️ Important:</strong> This report is for informational purposes only. Please consult a licensed veterinarian for proper diagnosis and treatment of your dog.
+        </div>
+
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e2e8f0; text-align: center; color: #64748b; font-size: 12px;">
+          <p>DogCare AI - Veterinary Disease Detection System</p>
+          <p>This report should not replace professional veterinary advice.</p>
+        </div>
+      </div>
+    `;
+
+    // Generate PDF
+    const opt = {
+      margin: 10,
+      filename: `DogCare-Report-${new Date().getTime()}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+    };
+
+    html2pdf().set(opt).from(reportHTML).save();
+  };
 
   const getSeverityClass = (severity) => {
     if (severity.toLowerCase() === "high") return "severity-high";
@@ -589,7 +674,16 @@ const DogCareAI = () => {
           )}
 
           <div className="card">
-            <h3>Infection Report</h3>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+              <h3>Infection Report</h3>
+              <button 
+                className="btn-primary" 
+                onClick={handleDownloadReport}
+                style={{margin: 0, padding: '10px 20px', fontSize: '14px'}}
+              >
+                ⬇️ Download Report
+              </button>
+            </div>
 
             <div className="report-grid">
               <div className={`mini-card ${getSeverityClass(diseaseData.severity)}`}>
