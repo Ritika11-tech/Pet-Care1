@@ -1,26 +1,87 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Confetti from './Confetti';
 
 const DonateModal = ({ isOpen, onClose, ngo }) => {
   const [donationAmount, setDonationAmount] = useState('');
   const [donorName, setDonorName] = useState('');
+  const [bankAccount, setBankAccount] = useState('');
+  const [otp, setOtp] = useState(['', '', '', '']);
+  const [otpSent, setOtpSent] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [donationResult, setDonationResult] = useState(null);
 
   const quickAmounts = [100, 500, 1000];
 
+  // Reset form to initial state
+  const resetForm = () => {
+    setDonationAmount('');
+    setDonorName('');
+    setBankAccount('');
+    setOtp(['', '', '', '']);
+    setOtpSent(false);
+    setIsProcessing(false);
+    setShowSuccess(false);
+    setDonationResult(null);
+  };
+
+  // Reset form when modal opens with new NGO
+  useEffect(() => {
+    if (isOpen) {
+      resetForm();
+    }
+  }, [isOpen, ngo]);
+
   const handleQuickAmount = (amount) => {
     setDonationAmount(amount.toString());
+  };
+
+  const handleOtpChange = (index, value) => {
+    if (value.length <= 1) {
+      const newOtp = [...otp];
+      newOtp[index] = value;
+      setOtp(newOtp);
+      
+      // Auto-focus next input
+      if (value && index < 3) {
+        const nextInput = document.getElementById(`otp-${index + 1}`);
+        if (nextInput) nextInput.focus();
+      }
+    }
+  };
+
+  const handleSendOtp = () => {
+    // Simulate OTP generation and auto-fill (exactly 4 digits)
+    setOtp(['1', '2', '3', '4']);
+    setOtpSent(true);
+  };
+
+  const handleKeyDown = (index, e) => {
+    // Handle backspace to go to previous input
+    if (e.key === 'Backspace' && !otp[index] && index > 0) {
+      const prevInput = document.getElementById(`otp-${index - 1}`);
+      if (prevInput) prevInput.focus();
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     const amount = parseFloat(donationAmount);
+    const enteredOtp = otp.join('');
     
     if (!amount || amount <= 0) {
       alert('Please enter a valid donation amount.');
+      return;
+    }
+
+    if (!bankAccount) {
+      alert('Please enter bank account number.');
+      return;
+    }
+
+    if (enteredOtp !== '1234') {
+      alert('Please enter correct OTP (demo: 1234)');
       return;
     }
 
@@ -71,8 +132,7 @@ const DonateModal = ({ isOpen, onClose, ngo }) => {
 
   const handleClose = () => {
     if (!isProcessing) {
-      setShowSuccess(false);
-      setDonationResult(null);
+      resetForm();
       onClose();
     }
   };
@@ -105,7 +165,7 @@ const DonateModal = ({ isOpen, onClose, ngo }) => {
               {/* Donor Name */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Your Name (Optional)
+                  Your Name 
                 </label>
                 <input
                   type="text"
@@ -116,10 +176,57 @@ const DonateModal = ({ isOpen, onClose, ngo }) => {
                 />
               </div>
 
+              {/* Bank Account */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Bank Account Number <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={bankAccount}
+                  onChange={(e) => setBankAccount(e.target.value)}
+                  placeholder="Enter bank account number"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500"
+                />
+              </div>
+
+              {/* OTP Verification */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  OTP Verification <span className="text-red-500">*</span>
+                </label>
+                <div className="flex gap-2 justify-center mb-2">
+                  {otp.map((digit, index) => (
+                    <input
+                      key={index}
+                      id={`otp-${index}`}
+                      type="text"
+                      value={digit}
+                      onChange={(e) => handleOtpChange(index, e.target.value)}
+                      onKeyDown={(e) => handleKeyDown(index, e)}
+                      maxLength={1}
+                      className="w-12 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 text-lg font-semibold"
+                    />
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={handleSendOtp}
+                  className="w-full py-2 px-4 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors duration-200 text-sm font-medium"
+                >
+                  Send OTP / Done
+                </button>
+                {otpSent && (
+                  <p className="text-xs text-green-600 mt-2 text-center">
+                    OTP sent successfully
+                  </p>
+                )}
+              </div>
+
               {/* Donation Amount */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Donation Amount ({"\u20b9"})
+                  Donation Amount ({"\u20b9"}) <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600 text-lg">
