@@ -5,10 +5,10 @@ import Hero from "./sections/Hero"
 import Problem from "./sections/Problem"
 import Solution from "./sections/Solution"
 import Features from "./sections/Features"
-import Innovation from "./sections/Innovation"
-import Impact from "./sections/Impact"
-import FutureScope from "./sections/FutureScope"
-import HowItWorks from "./components/HowItWorks"
+// import Innovation from "./sections/Innovation"
+// import Impact from "./sections/Impact"
+// import FutureScope from "./sections/FutureScope"
+// import HowItWorks from "./components/HowItWorks"
 import HowQR from "./components/howQR"
 import DogDetails from "./components/DogDetails"
 import QRCodeGenerator from "./components/QRCodeGenerator"
@@ -28,14 +28,14 @@ function LandingPage() {
         <Hero />
         <Problem />
         <Solution />
-        <HowItWorks />
+        {/* <HowItWorks /> */}
         
         <Features />
-        <Innovation />
+        {/* <Innovation /> */}
         <HowQR />
           <NGOSection /> 
-        <Impact />
-        <FutureScope />
+        {/* <Impact /> */}
+        {/* <FutureScope /> */}
         <NearbyVets/>
     
       </main>
