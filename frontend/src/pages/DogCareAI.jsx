@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Navbar from '../components/Navbar';
-import html2pdf from 'html2pdf.js';
+ import html2pdf from 'html2pdf.js';
+
 
 const DogCareAI = () => {
   const [selectedFile, setSelectedFile] = useState(null);
