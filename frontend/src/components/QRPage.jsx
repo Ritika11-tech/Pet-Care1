@@ -8,10 +8,30 @@ export default function QRPage() {
 
   const qrRef = useRef();
 
-  // Encode form data in URL so DogProfile can read it when scanned
-  const qrData = form
+  // Build URL for online access
+  const onlineUrl = form
     ? `${window.location.origin}/pet/${encodeURIComponent(form.name)}?breed=${encodeURIComponent(form.breed)}&owner=${encodeURIComponent(form.owner)}&phone=${encodeURIComponent(form.phone)}&address=${encodeURIComponent(form.address)}&photo=${encodeURIComponent(image || "")}&vaccinated=${encodeURIComponent(form.vaccinated || "")}&lastCheckup=${encodeURIComponent(form.lastCheckup || "")}&allergies=${encodeURIComponent(form.allergies || "")}`
     : "";
+
+  // Build offline text fallback
+  const offlineText = form
+    ? `
+🐾 PET INFORMATION
+
+Name: ${form.name}
+Breed: ${form.breed || "N/A"}
+Owner: ${form.owner || "N/A"}
+Phone: ${form.phone || "N/A"}
+Address: ${form.address || "N/A"}
+Vaccinated: ${form.vaccinated || "N/A"}
+Last Checkup: ${form.lastCheckup || "N/A"}
+Allergies: ${form.allergies || "None"}
+
+Tap URL above if online`
+    : "";
+
+  // Combine URL + text for QR (online-first, offline fallback)
+  const qrData = onlineUrl + offlineText;
 
   // Print generated link in console for debugging
   console.log("Generated QR Link:", qrData);

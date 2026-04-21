@@ -20,6 +20,7 @@ import DogCareAI from './pages/DogCareAI'
 import EmergencyRescueSystem from './pages/EmergencyRescueSystem'
 import NearbyVets from './sections/NearbyVets'
 import NGOSection from './components/NGOSection'
+// import VaccinationDashboard from './pages/VaccinationDashboard'
 
 
 
@@ -72,6 +73,7 @@ function App() {
         <Route path="/emergency" element={<EmergencyRescueSystem />} />
         <Route path="/generate" element={<QRCodeGenerator />} />
         <Route path="/qr" element={<QRPage />} />
+        {/* <Route path="/vaccination-tracker" element={<VaccinationDashboard />} /> */}
         
       </Routes>
     </Router>

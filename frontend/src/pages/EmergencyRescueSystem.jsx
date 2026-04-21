@@ -22,11 +22,11 @@ const conditionOptions = [
 
 // Mock vets data (5 vets)
 const mockVets = [
-  { id: 1, name: 'Dr. Mehta', clinic: 'City Pet Hospital', phone: '+91 98765 43210', distance: '1.2 km', avatar: 'DM', color: 'from-blue-500 to-blue-600' },
-  { id: 2, name: 'Dr. Sharma', clinic: 'Happy Paws Clinic', phone: '+91 98765 43211', distance: '2.1 km', avatar: 'DS', color: 'from-emerald-500 to-emerald-600' },
-  { id: 3, name: 'Dr. Reddy', clinic: 'Animal Care Center', phone: '+91 98765 43212', distance: '2.8 km', avatar: 'DR', color: 'from-purple-500 to-purple-600' },
-  { id: 4, name: 'Dr. Patel', clinic: 'Pet Wellness Hub', phone: '+91 98765 43213', distance: '3.2 km', avatar: 'DP', color: 'from-pink-500 to-pink-600' },
-  { id: 5, name: 'Dr. Gupta', clinic: 'VetCare Hospital', phone: '+91 98765 43214', distance: '4.1 km', avatar: 'DG', color: 'from-orange-500 to-orange-600' },
+  { id: 1, name: 'Dr. Mehta', clinic: 'City Pet Hospital', phone: '+91 98765 43210', distance: '1.2 km', avatar: 'DM', color: 'from-blue-500 to-blue-600', eta: '5 mins' },
+  { id: 2, name: 'Dr. Sharma', clinic: 'Happy Paws Clinic', phone: '+91 98765 43211', distance: '2.1 km', avatar: 'DS', color: 'from-emerald-500 to-emerald-600', eta: '8 mins' },
+  { id: 3, name: 'Dr. Reddy', clinic: 'Animal Care Center', phone: '+91 98765 43212', distance: '2.8 km', avatar: 'DR', color: 'from-purple-500 to-purple-600', eta: '10 mins' },
+  { id: 4, name: 'Dr. Patel', clinic: 'Pet Wellness Hub', phone: '+91 98765 43213', distance: '3.2 km', avatar: 'DP', color: 'from-pink-500 to-pink-600', eta: '12 mins' },
+  { id: 5, name: 'Dr. Gupta', clinic: 'VetCare Hospital', phone: '+91 98765 43214', distance: '4.1 km', avatar: 'DG', color: 'from-orange-500 to-orange-600', eta: '15 mins' },
 ];
 
 // Status steps
@@ -36,6 +36,29 @@ const statusSteps = [
   { id: 'accepted', label: 'Accepted', icon: CheckCircle },
   { id: 'onway', label: 'On the Way', icon: Navigation },
 ];
+
+// Play siren sound
+const playSiren = () => {
+  try {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+    oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.1);
+    
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.setValueAtTime(0, audioContext.currentTime + 0.2);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.2);
+  } catch (error) {
+    console.log('Audio context not available');
+  }
+};
 
 export default function EmergencyRescueSystem() {
   const navigate = useNavigate();
@@ -63,15 +86,22 @@ export default function EmergencyRescueSystem() {
 
   // Handle image upload
   const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
+    const file = e.target.files?.[0];
+    if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onload = (event) => {
-        setUploadedImage(event.target.result);
-        playSiren();
-        setCurrentStep('form');
+        if (event.target?.result) {
+          setUploadedImage(event.target.result);
+          playSiren();
+          setCurrentStep('form');
+        }
+      };
+      reader.onerror = () => {
+        alert('Failed to read file. Please try again.');
       };
       reader.readAsDataURL(file);
+    } else {
+      alert('Please select a valid image file.');
     }
   };
 

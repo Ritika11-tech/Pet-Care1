@@ -71,7 +71,7 @@ export default function QRCodeGenerator() {
             />
             <input 
               name="phone" 
-              placeholder="Phone" 
+              placeholder="Phone or Email" 
               onChange={handleChange} 
               className="input"
             />
