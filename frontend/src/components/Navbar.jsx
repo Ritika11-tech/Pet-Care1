@@ -6,10 +6,11 @@ import { useNavigate } from 'react-router-dom'
 const navLinks = [
   { name: 'Problem', href: '#problem' },
   { name: 'Solution', href: '#solution' },
-  { name: 'How It Works', href: '#how' },
+  
   { name: 'Features', href: '#features' },
   { name: 'Digital ID', href: '#howQR' },
-  { name: 'Impact', href: '#impact' },
+  { name: 'Nearby Care', href: '#nearby' },
+  
 ]
 
 export default function Navbar() {
@@ -82,7 +83,7 @@ export default function Navbar() {
               </motion.button>
             ))}
             <motion.button
-              onClick={() => navigate('/detection')}
+              onClick={() => navigate('/solution')}
               className="px-5 py-2.5 bg-gradient-to-r from-green-500 to-green-600 text-white text-sm font-bold rounded-xl shadow-lg shadow-green-200 hover:shadow-xl hover:shadow-green-200/50 hover:scale-105 transition-all duration-300 cursor-pointer border-none"
               whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.98 }}
@@ -125,7 +126,7 @@ export default function Navbar() {
               ))}
               <button
                 onClick={() => {
-                  navigate('/detection')
+                  navigate('/solution')
                   setIsMobileMenuOpen(false)
                 }}
                 className="mt-2 text-center px-5 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white text-sm font-bold rounded-xl shadow-lg cursor-pointer border-none"
