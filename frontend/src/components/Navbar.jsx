@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Dog, Menu, X, Siren } from 'lucide-react'
+import { Dog, Menu, X } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 const navLinks = [
