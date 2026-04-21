@@ -21,6 +21,7 @@ export default function NearbyVets() {
     }
 
     return (
+        <section id = "nearby" className="section-padding bg-green-50">
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -202,6 +203,7 @@ export default function NearbyVets() {
                 </button>
             </div>
         </motion.div>
+        </section>
     )
 }
 

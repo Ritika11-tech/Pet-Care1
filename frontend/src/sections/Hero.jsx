@@ -140,7 +140,7 @@ export default function Hero() {
                 <Shield className="w-6 h-6 text-emerald-400" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-white drop-shadow-md">98%</p>
+                <p className="text-2xl font-bold text-white drop-shadow-md">90%</p>
                 <p className="text-sm text-white/70">Accuracy</p>
               </div>
             </div>
@@ -149,7 +149,7 @@ export default function Hero() {
                 <Heart className="w-6 h-6 text-emerald-400" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-white drop-shadow-md">10K+</p>
+                <p className="text-2xl font-bold text-white drop-shadow-md">1K+</p>
                 <p className="text-sm text-white/70">Happy Pets</p>
               </div>
             </div>
@@ -158,7 +158,7 @@ export default function Hero() {
                 <Leaf className="w-6 h-6 text-emerald-400" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-white drop-shadow-md">50+</p>
+                <p className="text-2xl font-bold text-white drop-shadow-md">10+</p>
                 <p className="text-sm text-white/70">Conditions</p>
               </div>
             </div>

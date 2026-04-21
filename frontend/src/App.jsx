@@ -44,11 +44,24 @@ function LandingPage() {
   )
 }
 
+function SolutionPage() {
+  return (
+    <div className="min-h-screen bg-pastel-cream overflow-x-hidden">
+      <Navbar />
+      <main>
+        <Solution />
+      </main>
+      <Footer />
+    </div>
+  )
+}
+
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/solution" element={<SolutionPage />} />
         <Route path="/pet/:dogId" element={<DogProfile />} /> 
         <Route path="/detection" element={<DogCareAI />} />
         <Route path="/generate" element={<QRCodeGenerator />} />
