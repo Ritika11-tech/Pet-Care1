@@ -1,6 +1,6 @@
 import { useParams, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Phone, MapPin, User, Heart, PawPrint, Shield, Calendar } from 'lucide-react'
+import { Phone, Mail, MapPin, User, Heart, PawPrint, Shield, Calendar } from 'lucide-react'
  
 export default function DogProfile() {
   const { dogId } = useParams()
@@ -26,11 +26,35 @@ export default function DogProfile() {
     }
   }
  
-  const handleCall = () => {
-    const phone = dogData.owner.phone
-    if (phone) {
-      window.location.href = `tel:${phone.replace(/\s/g, '')}`
+  const isEmail = (contact) => {
+    return contact && contact.includes('@') && contact.includes('.')
+  }
+
+  const handleContact = () => {
+    const contact = dogData.owner.phone
+    if (contact) {
+      if (isEmail(contact)) {
+        const subject = `Found Your Dog: ${dogData.name}! 🐾`
+        const body = `Hello ${dogData.owner.name},\n\nI found your dog ${dogData.name} (${dogData.breed})!\n\nPlease contact me as soon as possible to arrange a reunion.\n\nThank you,\nA concerned pet lover`
+        
+        const gmailUrl = `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=${encodeURIComponent(contact)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+        window.open(gmailUrl, '_blank')
+      } else {
+        window.location.href = `tel:${contact.replace(/\s/g, '')}`
+      }
     }
+  }
+
+  const getContactIcon = () => {
+    return isEmail(dogData.owner.phone) ? <Mail className="w-6 h-6" /> : <Phone className="w-6 h-6" />
+  }
+
+  const getContactButtonText = () => {
+    return isEmail(dogData.owner.phone) ? 'Email Owner Now' : 'Call Owner Now'
+  }
+
+  const getContactType = () => {
+    return isEmail(dogData.owner.phone) ? 'Email' : 'Phone'
   }
  
   return (
@@ -151,24 +175,24 @@ export default function DogProfile() {
                   </div>
                 </div>
  
-                {/* Call Button - only show if phone exists */}
+{/* Contact Button - show if phone/email exists */}
                 {dogData.owner.phone && (
                   <>
                     <motion.button
-                      onClick={handleCall}
+                      onClick={handleContact}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold py-4 px-6 rounded-2xl shadow-lg shadow-green-500/25 transition-all duration-200 flex items-center justify-center gap-3"
                     >
-                      <Phone className="w-6 h-6" />
-                      <span className="text-lg">Call Owner Now</span>
+                      {getContactIcon()}
+                      <span className="text-lg">{getContactButtonText()}</span>
                       <span className="bg-white/20 px-3 py-1 rounded-full text-sm">
-                        {dogData.owner.phone}
+                        {getContactType()}
                       </span>
                     </motion.button>
- 
+
                     <p className="text-center text-sm text-gray-400 mt-4">
-                      Tap the button to open your phone dialer
+                      Tap the button to contact owner
                     </p>
                   </>
                 )}
