@@ -26,35 +26,44 @@ export default function DogProfile() {
     }
   }
  
+  // Check if contact is email or phone
   const isEmail = (contact) => {
     return contact && contact.includes('@') && contact.includes('.')
   }
-
+ 
+  // Get contact type (phone or email)
+  const getContactType = () => {
+    if (!dogData.owner.phone) return null
+    return isEmail(dogData.owner.phone) ? 'email' : 'phone'
+  }
+ 
+  // Get appropriate icon
+  const getContactIcon = () => {
+    return getContactType() === 'email' ? 
+      <Mail className="w-6 h-6" /> : 
+      <Phone className="w-6 h-6" />
+  }
+ 
+  // Get button text
+  const getContactButtonText = () => {
+    return getContactType() === 'email' ? 'Email Owner Now' : 'Call Owner Now'
+  }
+ 
   const handleContact = () => {
     const contact = dogData.owner.phone
-    if (contact) {
-      if (isEmail(contact)) {
-        const subject = `Found Your Dog: ${dogData.name}! 🐾`
-        const body = `Hello ${dogData.owner.name},\n\nI found your dog ${dogData.name} (${dogData.breed})!\n\nPlease contact me as soon as possible to arrange a reunion.\n\nThank you,\nA concerned pet lover`
-        
-        const gmailUrl = `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=${encodeURIComponent(contact)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-        window.open(gmailUrl, '_blank')
-      } else {
-        window.location.href = `tel:${contact.replace(/\s/g, '')}`
-      }
+    if (!contact) return
+    
+    if (isEmail(contact)) {
+      // Open Gmail compose with pre-filled data
+      const subject = `Found Your Dog: ${dogData.name}! 🐾`
+      const body = `Hello ${dogData.owner.name},\n\nI found your dog ${dogData.name} (${dogData.breed})!\n\nPlease contact me to arrange a reunion.\n\nBest regards`
+      
+      const mailtoUrl = `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=${contact}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+      window.open(mailtoUrl, '_blank')
+    } else {
+      // Call phone
+      window.location.href = `tel:${contact.replace(/\s/g, '')}`
     }
-  }
-
-  const getContactIcon = () => {
-    return isEmail(dogData.owner.phone) ? <Mail className="w-6 h-6" /> : <Phone className="w-6 h-6" />
-  }
-
-  const getContactButtonText = () => {
-    return isEmail(dogData.owner.phone) ? 'Email Owner Now' : 'Call Owner Now'
-  }
-
-  const getContactType = () => {
-    return isEmail(dogData.owner.phone) ? 'Email' : 'Phone'
   }
  
   return (
@@ -175,24 +184,30 @@ export default function DogProfile() {
                   </div>
                 </div>
  
-{/* Contact Button - show if phone/email exists */}
+                {/* Contact Button - Email or Phone */}
                 {dogData.owner.phone && (
                   <>
                     <motion.button
                       onClick={handleContact}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold py-4 px-6 rounded-2xl shadow-lg shadow-green-500/25 transition-all duration-200 flex items-center justify-center gap-3"
+                      className={`w-full text-white font-semibold py-4 px-6 rounded-2xl shadow-lg transition-all duration-200 flex items-center justify-center gap-3 ${
+                        getContactType() === 'email'
+                          ? 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-blue-500/25'
+                          : 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 shadow-green-500/25'
+                      }`}
                     >
                       {getContactIcon()}
                       <span className="text-lg">{getContactButtonText()}</span>
                       <span className="bg-white/20 px-3 py-1 rounded-full text-sm">
-                        {getContactType()}
+                        {getContactType() === 'email' ? 'Email' : 'Phone'}
                       </span>
                     </motion.button>
-
+ 
                     <p className="text-center text-sm text-gray-400 mt-4">
-                      Tap the button to contact owner
+                      {getContactType() === 'email' 
+                        ? 'Tap to open Gmail with a pre-filled message'
+                        : 'Tap the button to open your phone dialer'}
                     </p>
                   </>
                 )}

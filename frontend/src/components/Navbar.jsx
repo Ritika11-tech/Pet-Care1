@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Dog, Menu, X } from 'lucide-react'
+import { Dog, Menu, X, Heart } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 const navLinks = [
@@ -82,14 +82,16 @@ export default function Navbar() {
                 {link.name}
               </motion.button>
             ))}
-            <motion.button
-              onClick={() => navigate('/solution')}
-              className="px-5 py-2.5 bg-gradient-to-r from-green-500 to-green-600 text-white text-sm font-bold rounded-xl shadow-lg shadow-green-200 hover:shadow-xl hover:shadow-green-200/50 hover:scale-105 transition-all duration-300 cursor-pointer border-none"
-              whileHover={{ scale: 1.03, y: -2 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              Try Detection
-            </motion.button>
+            <div className="flex items-center gap-3">
+              <motion.button
+                onClick={() => navigate('/solution')}
+                className="px-5 py-2.5 bg-gradient-to-r from-green-500 to-green-600 text-white text-sm font-bold rounded-xl shadow-lg shadow-green-200 hover:shadow-xl hover:shadow-green-200/50 hover:scale-105 transition-all duration-300 cursor-pointer border-none"
+                whileHover={{ scale: 1.03, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Try Detection
+              </motion.button>
+            </div>
           </div>
 
           <button
